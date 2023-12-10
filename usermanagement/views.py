@@ -23,7 +23,7 @@ def login_page(request):
         
         if user is not None:
             auth.login(request, user)
-            return redirect('dashboard_url')
+            return redirect('dashboard_urls')
         else:
             messages.error(request, "the username or password or both are not matching")
             return render(request, 'login.html' )
