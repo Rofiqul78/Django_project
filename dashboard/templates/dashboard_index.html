@@ -1,10 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Information</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .navbar {
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+    }
+
+    .navbar-nav .nav-item {
+      margin-right: 10px;
+    }
+
+    .container {
+      margin-top: 20px;
+    }
+
+    .card {
+      border: none;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    h4 {
+      color: #007bff;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input[type="text"] {
+      border: 1px solid #ced4da;
+    }
+
+    button.btn-success {
+      background-color: #28a745;
+      border: 1px solid #28a745;
+    }
+
+    button.btn-success:hover {
+      background-color: #218838;
+      border: 1px solid #218838;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    table th,
+    table td {
+      text-align: center;
+    }
+  </style>
 </head>
 
 <body>
@@ -23,7 +87,7 @@
           <a class="nav-link" href="#">Student List</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">logout</a>
+          <a class="nav-link" href="#">Logout</a>
         </li>
       </ul>
     </div>
@@ -54,32 +118,39 @@
         </div>
       </div>
 
-      <!-- Column 2 -->
-      <div class="col-md-8">
-        <div class="card">
-          <div class="card-body">
-            <h4>Student List</h4>
-            <div id="output-container">
-              <table class="table">
-                <thead>
+     <!-- Column 2 -->
+     <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <h4>Student List</h4>
+          <div id="output-container">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Student Name</th>
+                  <th scope="col">Order Number</th>
+                  {% comment %} <th scope="col">Photo</th> {% endcomment %}
+                </tr>
+              </thead>
+              <tbody id="studentTableBody">
+                {% for data in table_data %}
                   <tr>
-                    <th scope="col">Student Name</th>
-                    <th scope="col">Order Number</th>
-                    <th scope="col">Photo</th>
+                    <td>{{ data.student_name }}</td>
+                    <td>{{ data.order_number }}</td>
+                    {% comment %} <td><!-- Add logic for displaying the photo --></td> {% endcomment %}
                   </tr>
-                </thead>
-                <tbody id="studentTableBody"></tbody>
-              </table>
-            </div>
+                {% endfor %}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Bootstrap JS and Popper.js (Optional) -->
+    <!-- Bootstrap JS and Popper.js (Optional) -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>
