@@ -1,0 +1,20 @@
+
+body {
+    padding: 20px;
+}
+
+.university-details {
+    max-width: 600px;
+    margin: auto;
+}
+
+.logo {
+    max-width: 100%;
+    height: auto;
+}
+
+.rank-badge {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007bff;
+}

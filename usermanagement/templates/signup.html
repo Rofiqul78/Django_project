@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .form-control:focus {
+            border-color: #f8b739;
+            box-shadow: none;
+        }
+        .signup-form {
+            width: 400px;
+            margin: 30px auto;
+            font-size: 15px;
+        }
+        .signup-form form {
+            margin-bottom: 15px;
+            background: #fff;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+        }
+        .signup-form h2 {
+            color: #333;
+            font-weight: bold;
+            margin-top: 0;
+        }
+        .signup-form .form-group {
+            margin-bottom: 20px;
+        }
+        .signup-form input[type="checkbox"] {
+            margin-top: 3px;
+        }
+        .signup-form .btn {
+            font-size: 16px;
+            font-weight: bold;
+            background: #f8b739;
+            border: none;
+            margin-top: 20px;
+            min-width: 140px;
+        }
+        .signup-form .btn:hover, .signup-form .btn:focus {
+            background: #e9a03c;
+            outline: none !important;
+        }
+        .signup-form a {
+            color: #f8b739;
+            text-decoration: underline;
+        }
+        .signup-form a:hover {
+            text-decoration: none;
+        }
+        .signup-form form a {
+            color: #666;
+            text-decoration: none;
+        }
+        .signup-form form a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="signup-form">
+    <form action="{% url 'signup_page' %}" method="post">
+      {% csrf_token %}
+        <h2>Sign Up</h2>
+        <p>Please fill in this form to create an account!</p>
+        <hr>
+        <div class="form-group">
+            <input type="text" class="form-control" name="username" placeholder="Username" required="required">
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control" name="email" placeholder="Email Address" required="required">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+        </div>
+        <div class="form-group">
+            <label class="checkbox-inline"><input type="checkbox" required="required"> I accept the <a href="#">Terms of Use</a> & <a href="#">Privacy Policy</a></label>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
+        </div>
+    </form>
+    <div class="text-center">Already have an account? <a href="{% url 'login_page' %}">Login here</a></div>
+</div>
+<div class="overlay-container">
+      <div class="overlay">
+          <div class="overlay-panel overlay-left">
+
+          </div>
+          {% if messages %}
+          <ul class="messages">
+              {% for msg in messages %}
+              <p style="color: red;">{{ msg }}</p>
+              {% endfor %} 
+          </ul>
+          {% endif %}
+          <div class="overlay-panel overlay-right">
+</div>
+      </div>
+  </div>
+
+
+</div>
+</body>
+</html>
+
+
+<!-- templates/registration/signup.html -->
+{% comment %} {% extends 'base.html' %}
+
+{% block content %}
+  <h2>Sign Up</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Sign Up</button>
+  </form>
+{% endblock %} {% endcomment %}
+
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .form-control:focus {
+            border-color: #f8b739;
+            box-shadow: none;
+        }
+        .signup-form {
+            width: 400px;
+            margin: 30px auto;
+            font-size: 15px;
+        }
+        .signup-form form {
+            margin-bottom: 15px;
+            background: #fff;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+        }
+        .signup-form h2 {
+            color: #333;
+            font-weight: bold;
+            margin-top: 0;
+        }
+        .signup-form .form-group {
+            margin-bottom: 20px;
+        }
+        .signup-form input[type="checkbox"] {
+            margin-top: 3px;
+        }
+        .signup-form .btn {
+            font-size: 16px;
+            font-weight: bold;
+            background: #f8b739;
+            border: none;
+            margin-top: 20px;
+            min-width: 140px;
+        }
+        .signup-form .btn:hover, .signup-form .btn:focus {
+            background: #e9a03c;
+            outline: none !important;
+        }
+        .signup-form a {
+            color: #f8b739;
+            text-decoration: underline;
+        }
+        .signup-form a:hover {
+            text-decoration: none;
+        }
+        .signup-form form a {
+            color: #666;
+            text-decoration: none;
+        }
+        .signup-form form a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="signup-form">
+    <form method="post" action="{% url 'login_page' %}">
+      {% csrf_token %}
+      {% comment %} {{ form.as_p }} {% endcomment %}
+        {% comment %} <h2>Sign Up</h2>
+        <p>Please fill in this form to create an account!</p>
+        <hr>
+        <div class="form-group">
+            <input type="text" class="form-control" name="username" placeholder="Username" required="required">
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control" name="email" placeholder="Email Address" required="required">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+        </div>
+        <div class="form-group">
+            <label class="checkbox-inline"><input type="checkbox" required="required"> I accept the <a href="#">Terms of Use</a> & <a href="#">Privacy Policy</a></label>
+        </div>
+      </div>
+      <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
+      </div>
+    </form>
+    <div class="text-center">Already have an account? <a href="{% url 'login_page' %}">Login here</a></div>
+
+    <div class="overlay-container">
+      <div class="overlay">
+          <div class="overlay-panel overlay-left">
+
+          </div>
+          {% if messages %}
+          <ul class="messages">
+              {% for msg in messages %}
+              <p style="color: red;">{{ msg }}</p>
+              {% endfor %} 
+          </ul>
+          {% endif %}
+          <div class="overlay-panel overlay-right">
+              {% comment %} <h6> Your user creation successfully completed</h6> {% endcomment %}
+
+          {% comment %} </div>
+      </div>
+  </div>
+
+
+</div>
+</body>
+</html>
+ {% endcomment %}

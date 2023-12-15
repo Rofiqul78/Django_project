@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,102 +7,79 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Information</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <style>
-    body {
-      background-color: #f8f9fa;
-    }
+  <link rel="stylesheet" type="css" href="{% static 'index.css' %}">
 
-    .navbar {
-      background-color: #fff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .navbar-brand {
-      font-weight: bold;
-    }
-
-    .navbar-nav .nav-item {
-      margin-right: 10px;
-    }
-
-    .container {
-      margin-top: 20px;
-    }
-
-    .card {
-      border: none;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .card-body {
-      padding: 20px;
-    }
-
-    h4 {
-      color: #007bff;
-    }
-
-    label {
-      font-weight: bold;
-    }
-
-    input[type="text"] {
-      border: 1px solid #ced4da;
-    }
-
-    button.btn-success {
-      background-color: #28a745;
-      border: 1px solid #28a745;
-    }
-
-    button.btn-success:hover {
-      background-color: #218838;
-      border: 1px solid #218838;
-    }
-
-    table {
-      width: 100%;
-      margin-top: 20px;
-    }
-
-    table th,
-    table td {
-      text-align: center;
-    }
-  </style>
+  <!-- Add Welcome Message -->
+  
+<div class="container mt-2">
+  {% if user.is_authenticated %}
+    <div class="alert alert-success" role="alert">
+      Hello, Mr. {{ user.username }}, welcome to our website!
+    </div>
+  {% endif %}
+</div>  
 </head>
 
 <body>
+ 
+
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Student Information</a>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
+        
+        <form method="GET" action="{% url 'dashboard_urls' %}">
+          <input type="text" name="query" placeholder="Search by Order Number">
+          <button type="submit">Search</button>
+        </form>
         <li class="nav-item active">
           <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Add Students</a>
+          <a class="nav-link" href="{% url 'dashboard_urls' %}">Add Students</a>
+          {% csrf_token %}
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Student List</a>
+          <a class="nav-link" href="{% url 'dashboard_urls' %}">Student List</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Logout</a>
-        </li>
+        {% block content %}
+        <form method="GET" action="{% url 'logout_session' %}"class="d-flex" role="logout">
+          {% csrf_token %}
+          <button class="btn btn-outline-success" type="submit">Logout</button>
+        </form>
+        {% endblock %}
       </ul>
+    
     </div>
   </nav>
 
+<!-- codes for showing messages -->
+
+{% if messages %}
+  <div id="messages-container">
+    <ul class="messages">
+      {% for message in messages %}
+        <li id="message-{{ forloop.counter }}"
+            {% if message.tags %} style="color: red;" class="{{ message.tags }}"{% endif %}>
+          {{ message }}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+
   <!-- Two-column form layout -->
+  <!-- Column 1 -->
+
   <div class="container">
     <div class="row">
-      <!-- Column 1 -->
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
             <h4>Add Student</h4>
-            <form id="studentForm" method="POST" action="{% url 'save_blogs_function' %}">
+            <form id="studentForm" method="POST" action="{% url 'save_blogs_function' %}" enctype="multipart/form-data">
               {% csrf_token %}
               <div class="mb-3">
                 <label for="studentName" class="form-label">Student Name</label>
@@ -111,14 +89,18 @@
                 <label for="orderNumber" class="form-label">Order Number</label>
                 <input type="text" class="form-control" name="order_number" id="orderNumber" required>
               </div>
-              <!-- Add other form fields as needed -->
-              <button type="submit" class="btn btn-success">Save</button>
+              <div class="mb-3">
+                <label for="formFile" class="form-label">Upload n</label>
+                <input class="form-control" name='image_upload' required type="file"  id="formFile">
+              </div>
+              <button type="submit" class="btn btn-success">Save</button>              
             </form>
           </div>
         </div>
       </div>
-
+  
      <!-- Column 2 -->
+
      <div class="col-md-8">
       <div class="card">
         <div class="card-body">
@@ -129,7 +111,7 @@
                 <tr>
                   <th scope="col">Student Name</th>
                   <th scope="col">Order Number</th>
-                  {% comment %} <th scope="col">Photo</th> {% endcomment %}
+                   <th scope="col">Photo</th>
                 </tr>
               </thead>
               <tbody id="studentTableBody">
@@ -137,9 +119,20 @@
                   <tr>
                     <td>{{ data.student_name }}</td>
                     <td>{{ data.order_number }}</td>
-                    {% comment %} <td><!-- Add logic for displaying the photo --></td> {% endcomment %}
-                  </tr>
+                    <td>
+                      <img src="{{ data.imageField.url }}" alt="Student Photo" style="max-width: 50px; max-height: 50px;">
+                    </td>
+                    <td>
+                    <a href="{% url 'update_blogs_function' data.id %}" class="btn btn-primary">Update</a>
+                    </td>
+                    <td>
+                      <form method="post" action="{% url 'delete_blogs_function' data.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                      </form>
+                    </td>
                 {% endfor %}
+                  </tr>
               </tbody>
             </table>
           </div>
@@ -147,10 +140,11 @@
       </div>
     </div>
 
-    <!-- Bootstrap JS and Popper.js (Optional) -->
+    <!-- Bootstrap & js scripts-->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
+</body>
 </html>

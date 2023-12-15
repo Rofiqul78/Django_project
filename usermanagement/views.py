@@ -1,15 +1,22 @@
-# from django.shortcuts import render
-
-# Create your views here.
-
-
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import auth
+from django.contrib.auth.models import auth, User
 from django.contrib import messages
-# from django.http import HttpResponse
+from django.contrib.auth import login as auth_login
 
-# def index(request):
-#     return HttpResponse("Hello world!")
+
+
+def signup_page(request):
+    if request.method == "GET":
+        return render(request,'signup.html')
+    elif request.method == "POST":
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        # password2 = request.POST.get('password2')
+        user=User.objects.create_user(username,email,password)
+        user.save()
+        return redirect ('login_page')
+    return render(request,'signup.html')
 
 def login_page(request):
     if request.method == "GET" :
@@ -25,5 +32,10 @@ def login_page(request):
             auth.login(request, user)
             return redirect('dashboard_urls')
         else:
-            messages.error(request, "the username or password or both are not matching")
-            return render(request, 'login.html' )
+            messages.error (request,"Login credentials are not matching")
+            return render(request, 'login.html')
+
+def logout_session(request): 
+    auth.logout(request)      
+    return redirect('login_page') 
+

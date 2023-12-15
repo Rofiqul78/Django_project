@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Information</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" type="css" href="{% static 'index.css' %}">
+  
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Update Student List</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Add Students</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Student List</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav> 
+  <br><br>
+<form method="post" action="" id="studentForm" align="center", enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="col-12", align="center">
+    <label for="studentName" class="form-label">Student Name</label>
+    <input type="text" class="form-control" name="student_name" value="{{data.student_name}}" id="studentName" required>
+  </div>
+  <div class="col-12", align="center">
+    <label for="orderNumber" class="form-label">Order Number</label>
+    <input type="text" class="form-control" name="order_number" value="{{data.order_number}}" id="orderNumber" required>
+  </div>
+  <div class="col-12" align="center">
+    <label for="imageField" class="form-label">Image</label>
+    <input type="file" class="form-control" name="imageField" id="imageField">
+  </div>
+  <button type="submit" class="btn btn-success">update</button>
+
+<!-- Bootstrap & js scripts-->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>
+
+
+ 
+

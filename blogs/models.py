@@ -1,14 +1,13 @@
 from django.db import models
-
-
-# Create your models here.
+from django.utils import timezone
 
 class BlogTables(models.Model):
     student_name = models.CharField(max_length=100, null=False, blank=False)
-    # Add the new non-nullable field with a default value
-    order_number = models.IntegerField(default=0)  # Replace 0 with your desired default value
-    # photo = models.ImageField(upload_to='blog_images/', null=False, blank=False)  # Make sure to create a 'blog_images' folder in your media directory
-
-
-
+    order_number = models.IntegerField(default=0)
+    imageField = models.ImageField(upload_to='image/') # Make sure to create a 'blog_images' folder in your media directory
+    Created_at = models.DateTimeField(default=timezone.now, blank=False, null=False)
+        
+def __str__(self): 
+    return self.order_number        
     
+
